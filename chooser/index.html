@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheel Menu</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="constants.js"></script>
+</head>
+
+<body onload="populateWheelSelect()">
+    <header>
+        The Wheel
+    </header>
+    <main>
+        <h2>Menu</h2>
+        <div>
+            <form action="spin.html">
+                <button class="menuButton" type='submit'>Spin the Wheel</button>
+                <span id='selectSpot'></span>
+            </form>
+            <form action="">
+                <button class="menuButton" type="submit">Wheel Management</button>
+            </form>
+            <form action="">
+                <button class="menuButton" type="submit">Tag Management</button>
+            </form>
+        </div>
+    </main>
+    <script src="scripts.js"></script>
+</body>
+
+</html>
