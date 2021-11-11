@@ -1,6 +1,5 @@
 const wheels = ['restaurants', 'movies']
-let params = new URLSearchParams(location.search);
-let wheelSelect = params.get('wheelSelect')
+
 const restaurants = [
     { name: 'The Works', style: 'American', price: '$$', },
     { name: 'Kentucky Bourbon', style: 'American', price: '$$', },

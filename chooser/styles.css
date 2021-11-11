@@ -59,6 +59,9 @@ h2 {
     background-color: yellow;
     border: 2px solid black;
     margin: 10px auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 .options {
     background-color: rgb(181, 238, 181);
