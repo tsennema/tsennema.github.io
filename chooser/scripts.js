@@ -28,7 +28,7 @@ function loadWheel() {
         document.getElementById("winnerSpot").appendChild(heading)
     }
     else {
-        window.location.replace("/index")
+        window.location.replace("../")
     }
 }
 
