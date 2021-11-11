@@ -1,6 +1,4 @@
-const wheels = ['restaurants', 'movies']
-
-const restaurants = [
+const restaurantList = [
     { name: 'The Works', style: 'American', price: '$$', },
     { name: 'Kentucky Bourbon', style: 'American', price: '$$', },
     { name: 'Lancaster Smokehouse', style: 'American', price: '$$', },
@@ -30,7 +28,7 @@ const restaurants = [
     { name: 'Kypreos', style: 'Breakfast', price: '$$', }
 ]
 
-const movies = [
+const movieList = [
     { name: 'Kingsman', genre: 'Action' },
     { name: 'Italian Job', genre: 'Action' },
     { name: 'Hot Fuzz', genre: 'Action/Comedy' },
@@ -42,3 +40,11 @@ const movies = [
     { name: 'Fight Club', genre: 'Drama' },
     { name: 'Weekend at Bernies', genre: 'Comedy' },
 ]
+
+const wheels = {
+    //Try this format
+    // examples: [exampleList, heading1, heading2, heading3]
+    // where heading1 is always a name/identifier
+    restaurants: [restaurantList, "name", "style", "price"],
+    movies: [movieList, "name", "genre", ""]
+}

@@ -18,45 +18,42 @@
     </div>
     <main>
         <div value='wheelSelect'></div>
-        <form action="">
-            <button class="menuButton">Spin</button>
-            <div class='spininput'>
-                <label for="count">How Many Results?</label>
-                <input type="number" id='count' name='count' placeholder='1-4' min=1, max=4>
-            </div>
-            <div class='options'>
-                <table id='excludetable'>
-                    <thead>
-                        <tr>
-                            <th>Exclude</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        TODO
-                    </tbody>
-                </table>
+        <button type="button" class="menuButton" onclick="randomSpin()">Spin</button>
+        <div class='spininput'>
+            <label for="count">How Many Results?</label>
+            <input type="number" id='count' name='count' placeholder='1-4' min=1, max=4>
+        </div>
+        <div class='options'>
+            <table id='excludetable'>
+                <thead>
+                    <tr>
+                        <th>Exclude</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    TODO
+                </tbody>
+            </table>
 
-                <table id='nodupetable'>
-                    <thead>
-                        <tr>
-                            <th>Do Not Duplicate</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>item</td>
-                        </tr>
-                        <tr>
-                            <td>item</td>
-                        </tr>
-                        <tr>
-                            <td>item</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </form>
-
+            <table id='nodupetable'>
+                <thead>
+                    <tr>
+                        <th>Do Not Duplicate</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                    <tr>
+                        <td>item</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </main>
     <footer>
         <form action="index.html">
