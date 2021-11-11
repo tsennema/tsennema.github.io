@@ -80,10 +80,11 @@ h2 {
     transform: translateY(50px);
 }
 
-#excludetable, #nodupetable {
+#includeTable, #nodupetable {
     float: left;
     margin: 1em;
     border: 2px solid black;
+    text-align: left;
 }
 
 .spininput {

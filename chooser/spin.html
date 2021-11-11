@@ -10,7 +10,7 @@
     <script src='constants.js'></script>
 </head>
 
-<body onload="loadWheel()">
+<body>
     <div id='wheel'>
         <div id='winnerSpot'>
 
@@ -24,15 +24,13 @@
             <input type="number" id='count' name='count' placeholder='1-4' min=1, max=4>
         </div>
         <div class='options'>
-            <table id='excludetable'>
+            <table id='includeTable'>
                 <thead>
                     <tr>
-                        <th>Exclude</th>
+                        <th>Include</th>
                     </tr>
                 </thead>
-                <tbody>
-                    TODO
-                </tbody>
+                <tbody id='includeBody'></tbody>
             </table>
 
             <table id='nodupetable'>
@@ -61,6 +59,7 @@
         </form>
     </footer>
     <script src="scripts.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', loadSpinPage())</script>
 </body>
 
 </html>
