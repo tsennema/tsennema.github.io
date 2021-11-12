@@ -80,7 +80,7 @@ h2 {
     transform: translateY(50px);
 }
 
-#includeTable, #nodupetable {
+#includeTable, #allowMultipleTable {
     float: left;
     margin: 1em;
     border: 2px solid black;
