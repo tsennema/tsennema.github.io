@@ -1,26 +1,6 @@
 let params = new URLSearchParams(location.search);
 let wheelSelect = params.get('wheelSelect')
 
-function populateWheelSelect() {
-    // Create select menu
-    let choose = document.createElement("select");
-    choose.name = "wheelSelect";
-    choose.id = "wheelSelect";
-    choose.classList.add("selectMenu");
-    // Populate options in select menu
-    for (const wheel in wheels) {
-        let option = document.createElement("option");
-        option.value = wheel;
-        option.text = wheel.charAt(0).toUpperCase() + wheel.slice(1);
-        choose.appendChild(option);
-    }
-    // Place select menu onto webpage
-    let label = document.createElement("label");
-    label.innerHTML = "";
-    label.htmlFor = "wheelSelect";
-    document.getElementById("selectSpot").appendChild(label).appendChild(choose);
-}
-
 function loadSpinPage() {
     if (wheelSelect !== null) {
         loadWheel()
