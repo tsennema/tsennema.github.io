@@ -93,30 +93,6 @@ function randomSpin() {
     else { count = parseInt(count); }
     // this is where any edits to candidates should happen
     let candidates = filterCandidates("included", wheels[wheelSelect][0])
-    // collect list of included tags
-    // const includedHTML = document.getElementsByClassName("included");
-    // const included = [];
-    // for (let i = 0; i < includedHTML.length; i++) {
-    //     if (includedHTML.item(i).checked === true) {
-    //         included.push(includedHTML[i].id);
-    //     }
-    // }
-    // // filter by included
-    // const filtered1 = [];
-    // for (candidate of candidates) {
-    //     let checkIfIncluded = true;
-    //     for (let i = 2; i < wheels[wheelSelect].length; i++) {
-    //         let heading = wheels[wheelSelect][i];
-    //         if (included.includes(candidate[heading]) === false) {
-    //             checkIfIncluded = false;
-    //         }
-    //     }
-    //     if (checkIfIncluded) {
-    //         filtered1.push(candidate);
-    //     }
-    // }
-
-    // Reset list to name candidates so we can comment out filters as needed
     let winners = []
     let escape = 0;
     while (winners.length < count) {
@@ -126,7 +102,11 @@ function randomSpin() {
             winners = filterCandidates("allowMultiple", winners);
         }
         escape += 1;
-        if (escape > 50) { break; }
+        if (escape > 50) {
+            let noAnswer = { name: "No More Valid Winners" }
+            winners.push(noAnswer)
+            break;
+        }
     }
     loadWinner(winners);
 }
@@ -143,30 +123,48 @@ function filterCandidates(filter, candidates) {
     }
     // check if candidate should be added to filtered list
     const filtered = []
-    for (candidate of candidates) {
-        let checkIfIncluded = true;
-        // It's easy enough to remove candidates before the random selection
-        if (filter === "included") {
+    if (filter === "included") {
+
+        for (let cand = 0; cand < candidates.length; cand++) {
+            // It's easy enough to remove candidates before the random selection
+            let checkIfIncluded = true;
             for (let i = 2; i < wheels[wheelSelect].length; i++) {
                 let heading = wheels[wheelSelect][i];
-                if (filterHeadings.includes(filter + candidate[heading]) === false) {
+                if (filterHeadings.includes(filter + candidates[cand][heading]) === false) {
                     checkIfIncluded = false;
                 }
             }
-        }
-        // I don't want the original order to matter, so this filter should be called during the random selection process
-        if (filter === "allowMultiple") {
-            //TODO check every candidate to see if there's matching tags with the last candidate
-            // if there is a match, don't let the last one be added
-            // if there is no match, let it be added unimpeded 
-
+            if (checkIfIncluded) {
+                filtered.push(candidates[cand]);
+            }
         }
 
-        if (checkIfIncluded) {
-            filtered.push(candidate);
+        return filtered;
+    }
+    // I don't want the original order to matter, so this filter should be called during the random selection process
+    if (filter === "allowMultiple") {
+        for (let cand = 0; cand < candidates.length; cand++) {
+            // First only do stuff if it's not the last item, since of course the last item will match with itself
+            if (cand !== candidates.length - 1) {
+                // Checks every candidate to see if there's matching tags with the last candidate
+                for (let i = 2; i < wheels[wheelSelect].length; i++) {
+                    let heading = wheels[wheelSelect][i];
+                    // If it finds any match
+                    if (candidates[cand][heading] === candidates[candidates.length - 1][heading]) {
+                        // Check if particular heading is allowed to be duplicated or not
+                        if (!filterHeadings.includes(filter + candidates[cand][heading])) {
+                            // If not allowed, remove the most recent candidate, and send it back to try again
+                            let popped = candidates.pop(candidates.length - 1);
+                            return candidates;
+                        }
+                    }
+                }
+            }
         }
+        // If no issues found, return full list unaltered
+        return candidates;
     }
 
-    return filtered;
+
 }
 
