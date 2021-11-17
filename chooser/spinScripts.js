@@ -14,7 +14,7 @@ function loadSpinPage() {
 
 function loadWheel() {
     let heading = document.createElement("h2");
-    heading.innerHTML = wheelSelect.charAt(0).toUpperCase() + wheelSelect.slice(1);
+    heading.innerHTML = wheelSelect;
     document.getElementById("winnerSpot").appendChild(heading)
 }
 

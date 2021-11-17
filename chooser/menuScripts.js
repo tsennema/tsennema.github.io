@@ -8,7 +8,7 @@ function populateWheelSelect() {
     for (const wheel in wheels) {
         let option = document.createElement("option");
         option.value = wheel;
-        option.text = wheel.charAt(0).toUpperCase() + wheel.slice(1);
+        option.text = wheel;
         choose.appendChild(option);
     }
     // Place select menu onto webpage
@@ -26,7 +26,7 @@ function populateWheelSelect() {
     for (const wheel in wheels) {
         let option = document.createElement("option");
         option.value = wheel;
-        option.text = wheel.charAt(0).toUpperCase() + wheel.slice(1);
+        option.text = wheel;
         wheelManage.appendChild(option);
     }
     let newWheel = document.createElement("option");

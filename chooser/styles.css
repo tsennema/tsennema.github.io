@@ -26,6 +26,9 @@ h2 {
     font-size: 48px;
     text-align: center;
 }
+.h2edit {
+    font-size: 48px;
+}
 
 .menuButton {
     background-color: rgb(94, 155, 94);
@@ -36,11 +39,20 @@ h2 {
     margin: 0.5em;
     padding: 10px 15px;
 }
-.menuButton:hover {
+.menuButton:hover, .editButton:hover{
     color: white;
     box-shadow: 0 0.2em 2px -2px black;
     transform: translateY(-2px);
     cursor: pointer;
+}
+.editButton {
+    background-color: rgb(94, 155, 94);
+    border-radius: 0.5em;
+    border: 2px solid black;
+    text-align: center;
+    font-size: 12px;
+    margin: 0.5em;
+    padding: 5px 7px;
 }
 .selectMenu {
     background-color: white;
@@ -80,7 +92,7 @@ h2 {
     transform: translateY(50px);
 }
 
-#includeTable, #allowMultipleTable {
+table {
     float: left;
     margin: 1em;
     border: 2px solid black;

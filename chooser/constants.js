@@ -43,8 +43,8 @@ const movieList = [
 
 const wheels = {
     //Try this format
-    // examples: [exampleList, heading1, heading2, heading3]
+    // examples: [listname, exampleList, heading1, heading2, heading3]
     // where heading1 is always a name/identifier
-    restaurants: [restaurantList, "name", "style", "price"],
-    movies: [movieList, "name", "genre"]
+    Restaurants: [restaurantList, "name", "style", "price"],
+    Movies: [movieList, "name", "genre"]
 }
