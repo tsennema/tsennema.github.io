@@ -13,6 +13,13 @@ function loadWheelManagePage() {
     }
 }
 
+
+// TODO: Move Management to be a pane in the main window, and the whole thing will just be one page
+// Will be able to 'live-edit' the existing things, and build an example 3rd one by adding/changing elements
+// Will be able to spin the new/edited things, but will all reset upon refresh, due to non-serverness
+// Fix add functionality
+
+
 function loadManageWheel() {
     // This page will essentially have a heading with the wheel name + edit name
     // tag names + edit tag name, add new tags, delete tags with warning
@@ -74,12 +81,6 @@ function loadManageWheel() {
     // document.getElementById("wheelNameEdit").appendChild(wheelNameEdit)
 }
 
-function loadNewWheel() {
-    // this function will allow creation of new wheel, set name, tags, and add entries
-    // Todo
-}
-
-
 function deleteItem(name) {
     let wheelList = wheels[wheelSelect][0]
     for (let i = 0; i < wheelList.length; i++) {
@@ -90,36 +91,3 @@ function deleteItem(name) {
     }
     document.getElementById(name).parentElement.remove()
 }
-// function editWheelName(editElement) {
-//     if (editElement === "button") {
-//         // if the edit button has been pushed
-//         // delete text
-//         let wheelName = document.getElementById("wheelName")
-//         wheelName.innerHTML = ""
-//         // place input box w/ placeholder, onsubmit, etc.
-//         let newNameForm = document.createElement("form")
-//         newNameForm.onsubmit = function () { editWheelName("input") };
-//         let newNameInput = document.createElement("input")
-//         newNameInput.autofocus = true;
-//         newNameInput.maxLength = 25
-//         newNameInput.minLength = 1;
-//         newNameInput.value = wheelSelect;
-//         newNameInput.placeholder = "1-25 characters"
-//         newNameInput.id = "newNameInput"
-//         document.getElementById("wheelName").appendChild(newNameForm).appendChild(newNameInput)
-//         // hide button
-//         document.getElementById("wheelNameEdit").hidden = true;
-//     }
-//     else if (editElement === "input") {
-//         // if the input box has been created and entered
-//         // get new value
-//         let newName = document.getElementsByID("newNameInput").value;
-//         // change key in constants
-//         // update wheelSelect
-//         // update wheelName on this page
-//         let wheelName = document.getElementById("wheelName")
-//         wheelName.innerHTML = wheelSelect;
-//         document.getElementById("wheelNameEdit").hidden = false;
-//     }
-
-// }
