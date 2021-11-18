@@ -36,8 +36,16 @@ function loadManageWheel() {
         for (h of headings) {
             let cell = document.createElement("td")
             cell.innerHTML = item[h]
+            cell.id = item[h]
             newRow.appendChild(cell)
         }
+        let delCell = document.createElement("td")
+        let delButton = document.createElement("button")
+        delButton.innerHTML = "Delete"
+        delButton.className += "editButton"
+        let nameString = item["name"]
+        delButton.onclick = function () { deleteItem(nameString) }
+        newRow.appendChild(delCell).appendChild(delButton)
         document.getElementById("wheelManageBody").appendChild(newRow)
     }
     let addRow = document.createElement("tr")
@@ -45,6 +53,7 @@ function loadManageWheel() {
     let addButton = document.createElement("button")
     addButton.innerHTML = "Add Entry"
     addButton.type = "button"
+    addButton.className += "editButton"
     addButton.onclick = function () {
         addCell.hidden = true;
         let addForm = document.createElement("form")
@@ -70,6 +79,17 @@ function loadNewWheel() {
     // Todo
 }
 
+
+function deleteItem(name) {
+    let wheelList = wheels[wheelSelect][0]
+    for (let i = 0; i < wheelList.length; i++) {
+        if (wheelList[i]["name"] === name) {
+            wheelList.splice(i, 1)
+            break;
+        }
+    }
+    document.getElementById(name).parentElement.remove()
+}
 // function editWheelName(editElement) {
 //     if (editElement === "button") {
 //         // if the edit button has been pushed
