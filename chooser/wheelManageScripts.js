@@ -43,7 +43,7 @@ function loadManageWheel() {
         for (h of headings) {
             let cell = document.createElement("td")
             cell.innerHTML = item[h]
-            cell.id = item[h]
+            cell.id = "cell" + item[h]
             newRow.appendChild(cell)
         }
         let delCell = document.createElement("td")
@@ -89,5 +89,5 @@ function deleteItem(name) {
             break;
         }
     }
-    document.getElementById(name).parentElement.remove()
+    document.getElementById("cell" + name).parentElement.remove()
 }

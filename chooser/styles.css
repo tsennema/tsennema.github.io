@@ -9,7 +9,13 @@ header {
     color: white;
     margin: 0.25em 2em;
 }
-main {
+.mainHolder {
+    display: flex;
+    flex-direction: row;
+    
+    justify-content:space-evenly;
+}
+.main {
     background-color: lightgreen;
     border-radius: 2em;
     display: flex;
@@ -17,7 +23,6 @@ main {
     width:fit-content;
     flex-direction: column;
     text-align: center;
-    margin: auto;
     flex-shrink: 1;
     padding: 1em 2em;
 }

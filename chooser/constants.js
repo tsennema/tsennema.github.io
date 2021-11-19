@@ -41,10 +41,13 @@ const movieList = [
     { name: 'Weekend at Bernies', genre: 'Comedy' },
 ]
 
+const newList = []
+
 const wheels = {
     //Try this format
     // examples: [listname, exampleList, heading1, heading2, heading3]
     // where heading1 is always a name/identifier
     Restaurants: [restaurantList, "name", "style", "price"],
-    Movies: [movieList, "name", "genre"]
+    Movies: [movieList, "name", "genre"],
+    New: [newList]
 }

@@ -1,38 +1,57 @@
-let params = new URLSearchParams(location.search);
-let wheelSelect = params.get('wheelSelect')
+// let params = new URLSearchParams(location.search);
+// let wheelSelect = params.get('wheelSelect')
+let wheelSelect = "Restaurants"
+let select = document.getElementById('wheelSelect')
+select.addEventListener('change', changeSelect, false)
 
 function loadSpinPage() {
-    if (wheelSelect !== null) {
-        loadWheel()
-        loadFilterList("included", true)
-        loadFilterList("allowMultiple", true)
-    }
-    else {
-        window.location.replace("../")
+    populateWheelSelect()
+    loadWheel()
+    loadFilterList("included", true)
+    loadFilterList("allowMultiple", true)
+    loadManageWheel()
+}
+
+function populateWheelSelect() {
+    // Populate options in select menu
+    if (!document.getElementById("wheelSelect").firstChild) {
+        let choose = document.getElementById('wheelSelect');
+        for (const wheel in wheels) {
+            let option = document.createElement("option");
+            option.value = wheel;
+            option.text = wheel;
+            choose.appendChild(option);
+        }
     }
 }
 
-function loadWheel() {
-    let heading = document.createElement("h2");
-    heading.innerHTML = wheelSelect;
-    document.getElementById("winnerSpot").appendChild(heading)
-}
-
-function loadWinner(winners) {
+function changeSelect() {
+    wheelSelect = this.value
     if (document.contains(document.getElementById("winList"))) {
         document.getElementById("winList").remove()
     }
-    let winList = document.createElement("ul");
-    winList.id = "winList";
-    for (let i = 0; i < winners.length; i++) {
-        let winItem = document.createElement("li");
-        winItem.innerHTML = winners[i]["name"];
-        winList.appendChild(winItem)
+    loadSpinPage()
+}
+
+function loadWheel() {
+    if (document.contains(document.getElementById("wheelTitle"))) {
+        document.getElementById("wheelTitle").remove()
     }
-    document.getElementById("winnerSpot").appendChild(winList);
+    let heading = document.createElement("h2");
+    heading.innerHTML = wheelSelect;
+    heading.id = "wheelTitle"
+    document.getElementById("winnerSpot").appendChild(heading)
 }
 
 function loadFilterList(filterName, defaultChecked) {
+    // Clear Tables if new wheel selected
+    const body = document.getElementById(filterName + "Body")
+    if (body.firstChild) {
+        while (body.firstChild) {
+            body.removeChild(body.lastChild);
+        }
+    }
+
     let filterList = [];
     // loop through all headings other than name (should only be 2-3)
     for (let i = 2; i < wheels[wheelSelect].length; i++) {
@@ -63,6 +82,103 @@ function loadFilterList(filterName, defaultChecked) {
     }
 }
 
+function loadManageWheel() {
+    // This page will essentially have a heading with the wheel name + edit name
+    // tag names + edit tag name, add new tags, delete tags with warning
+    // list of entries (scrollable?), editable, deletable, and spot to add new ones
+
+    // Clear Things if new wheel Selected
+    const tableHead = document.getElementById("wheelManageHead")
+    if (tableHead.firstChild) {
+        while (tableHead.firstChild) {
+            tableHead.removeChild(tableHead.lastChild);
+        }
+    }
+    const tableBody = document.getElementById("wheelManageBody")
+    if (tableBody.firstChild) {
+        while (tableBody.firstChild) {
+            tableBody.removeChild(tableBody.lastChild);
+        }
+    }
+
+    let wheelName = document.getElementById("wheelName")
+    wheelName.innerHTML = wheelSelect;
+    let itemList = wheels[wheelSelect][0]
+    let headings = []
+    for (let i = 1; i < wheels[wheelSelect].length; i++) {
+        headings.push(wheels[wheelSelect][i])
+    }
+    let headingRow = document.createElement("tr")
+    document.getElementById("wheelManageHead").appendChild(headingRow)
+    for (h of headings) {
+        let heading = document.createElement("th")
+        heading.innerHTML = h
+        headingRow.appendChild(heading)
+    }
+    for (item of itemList) {
+        let newRow = document.createElement("tr")
+        newRow.className += 'entry'
+        for (h of headings) {
+            let cell = document.createElement("td")
+            cell.innerHTML = item[h]
+            cell.id = "cell" + item[h]
+            newRow.appendChild(cell)
+        }
+        let delCell = document.createElement("td")
+        let delButton = document.createElement("button")
+        delButton.innerHTML = "Delete"
+        delButton.className += "editButton"
+        let nameString = item["name"]
+        delButton.onclick = function () { deleteItem(nameString) }
+        newRow.appendChild(delCell).appendChild(delButton)
+        document.getElementById("wheelManageBody").appendChild(newRow)
+    }
+    let addRow = document.createElement("tr")
+    let addCell = document.createElement("td")
+    let addButton = document.createElement("button")
+    addButton.innerHTML = "Add Entry"
+    addButton.type = "button"
+    addButton.className += "editButton"
+    addButton.onclick = function () {
+        addCell.hidden = true;
+        let addForm = document.createElement("form")
+        addForm.id = "addEntryForm"
+
+        for (h of headings) {
+            let inputCell = document.createElement("td")
+            let addInput = document.createElement("input")
+            addInput.form = "addEntryForm"
+            addRow.appendChild(inputCell).appendChild(addInput)
+        }
+    };
+    document.getElementById("wheelManageBody").appendChild(addRow).appendChild(addCell).appendChild(addButton)
+}
+
+function deleteItem(name) {
+    let wheelList = wheels[wheelSelect][0]
+    for (let i = 0; i < wheelList.length; i++) {
+        if (wheelList[i]["name"] === name) {
+            wheelList.splice(i, 1)
+            break;
+        }
+    }
+    document.getElementById("cell" + name).parentElement.remove()
+}
+
+function loadWinner(winners) {
+    if (document.contains(document.getElementById("winList"))) {
+        document.getElementById("winList").remove()
+    }
+    let winList = document.createElement("ul");
+    winList.id = "winList";
+    for (let i = 0; i < winners.length; i++) {
+        let winItem = document.createElement("li");
+        winItem.innerHTML = winners[i]["name"];
+        winList.appendChild(winItem)
+    }
+    document.getElementById("winnerSpot").appendChild(winList);
+}
+
 function randomSpin() {
     // For reference, wheels["name"][0] is the list of objects
     // wheels["name"][1-3] are the object keys, if they exist
@@ -71,8 +187,10 @@ function randomSpin() {
     let count = document.getElementById("count").value;
     if (Number.isInteger(parseInt(count)) === false || count < 1 || count > 4) { count = 1; }
     else { count = parseInt(count); }
+    // Get candidate list from Manage Table
+    let candidates = generateCandidates();
     // this is where any edits to candidates should happen
-    let candidates = filterCandidates("included", wheels[wheelSelect][0])
+    candidates = filterCandidates("included", wheels[wheelSelect][0])
     let winners = []
     let escape = 0;
     while (winners.length < count) {
@@ -89,6 +207,32 @@ function randomSpin() {
         }
     }
     loadWinner(winners);
+}
+
+function generateCandidates() {
+    // Get array of heading texts
+    let headings = []
+    let headingElements = document.getElementById("wheelManageHead").firstChild.children
+    for (let i = 0; i < headingElements.length; i++) {
+        headings.push(headingElements[i].textContent)
+    }
+    // Turn each element into an object
+    let candidates = []
+    for (entry of document.getElementsByClassName("entry")) {
+        // Get array of texts from table
+        let info = []
+        let infoElements = entry.children
+        for (let i = 0; i < infoElements.length - 1; i++) {
+            info.push(infoElements[i].textContent)
+        }
+        // Add candidate to array
+        let cand = {}
+        for (let i = 0; i < headings.length; i++) {
+            cand[headings[i]] = info[i]
+        }
+        candidates.push(cand)
+    }
+    return candidates
 }
 
 function filterCandidates(filter, candidates) {

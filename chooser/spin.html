@@ -11,38 +11,58 @@
 </head>
 
 <body>
-    <div id='wheel'>
-        <div id='winnerSpot'>
+    <div class='mainHolder'>
+        <div>
+            <select name='wheelSelect' id='wheelSelect' class='selectMenu'></select>
+        </div>
+        <div id='wheel'>
+            <div id='winnerSpot'>
 
+            </div>
+        </div>
+
+    </div>
+    <div class='mainHolder'>
+        <div class='main'>
+            <div>
+                <span id="wheelName" class='h2edit'></span>
+                <span id="wheelNameEdit"></span>
+            </div>
+            <table>
+                <thead id='wheelManageHead'></thead>
+                <tbody id='wheelManageBody'></tbody>
+            </table>
+
+
+        </div>
+        <div class='main'>
+            <div value='wheelSelect'></div>
+            <button type="button" class="menuButton" onclick="randomSpin()">Spin</button>
+            <div class='spininput'>
+                <label for="count">How Many Results?</label>
+                <input type="number" id='count' name='count' placeholder='1-4' min=1, max=4>
+            </div>
+            <div class='options'>
+                <table id='includeTable'>
+                    <thead>
+                        <tr>
+                            <th>Include</th>
+                        </tr>
+                    </thead>
+                    <tbody id='includedBody'></tbody>
+                </table>
+
+                <table id='allowMultipleTable'>
+                    <thead>
+                        <tr>
+                            <th>Allow Multiple</th>
+                        </tr>
+                    </thead>
+                    <tbody id='allowMultipleBody'></tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <main>
-        <div value='wheelSelect'></div>
-        <button type="button" class="menuButton" onclick="randomSpin()">Spin</button>
-        <div class='spininput'>
-            <label for="count">How Many Results?</label>
-            <input type="number" id='count' name='count' placeholder='1-4' min=1, max=4>
-        </div>
-        <div class='options'>
-            <table id='includeTable'>
-                <thead>
-                    <tr>
-                        <th>Include</th>
-                    </tr>
-                </thead>
-                <tbody id='includedBody'></tbody>
-            </table>
-
-            <table id='allowMultipleTable'>
-                <thead>
-                    <tr>
-                        <th>Allow Multiple</th>
-                    </tr>
-                </thead>
-                <tbody id='allowMultipleBody'></tbody>
-            </table>
-        </div>
-    </main>
     <footer>
         <form action="index.html">
             <button>Return to Menu</button>
