@@ -1,8 +1,17 @@
-// let params = new URLSearchParams(location.search);
-// let wheelSelect = params.get('wheelSelect')
 let wheelSelect = "Restaurants"
 let select = document.getElementById('wheelSelect')
 select.addEventListener('change', changeSelect, false)
+
+
+// Current List of ToDos:
+// Make add/delete buttons update the constants lists. Don't worry about making it scalable, just get it functional
+//     maybe make an addEntry function with an argument, and just call it a bunch when building the table
+// Make add/delete buttons call loadSpinPage, to update all new tags, etc.
+// Make add button check for values in all fields
+// Make add button check name against list for duplicates
+
+
+
 
 function loadSpinPage() {
     populateWheelSelect()
@@ -101,13 +110,16 @@ function loadManageWheel() {
         }
     }
 
+    // Get Name of List from constants
     let wheelName = document.getElementById("wheelName")
     wheelName.innerHTML = wheelSelect;
-    let itemList = wheels[wheelSelect][0]
+
+    // Get headings from constants
     let headings = []
     for (let i = 1; i < wheels[wheelSelect].length; i++) {
         headings.push(wheels[wheelSelect][i])
     }
+    // Create heading row and add to DOM
     let headingRow = document.createElement("tr")
     document.getElementById("wheelManageHead").appendChild(headingRow)
     for (h of headings) {
@@ -115,46 +127,36 @@ function loadManageWheel() {
         heading.innerHTML = h
         headingRow.appendChild(heading)
     }
+
+    // Initialize list of entries, existing or not
+    let itemList = wheels[wheelSelect][0]
     for (item of itemList) {
-        let newRow = document.createElement("tr")
-        newRow.className += 'entry'
-        for (h of headings) {
-            let cell = document.createElement("td")
-            cell.innerHTML = item[h]
-            cell.id = "cell" + item[h]
-            newRow.appendChild(cell)
-        }
-        let delCell = document.createElement("td")
-        let delButton = document.createElement("button")
-        delButton.innerHTML = "Delete"
-        delButton.className += "editButton"
-        let nameString = item["name"]
-        delButton.onclick = function () { deleteItem(nameString) }
-        newRow.appendChild(delCell).appendChild(delButton)
-        document.getElementById("wheelManageBody").appendChild(newRow)
+        addEntry(item, headings)
     }
+
+    // Create input row
     let addRow = document.createElement("tr")
+    addRow.id = "addRow"
+    for (h of headings) {
+        let inputCell = document.createElement("td")
+        let addInput = document.createElement("input")
+        addInput.id = "new" + h
+        addInput.placeholder = h
+        addRow.appendChild(inputCell).appendChild(addInput)
+    }
     let addCell = document.createElement("td")
+    addCell.id = "addCell"
     let addButton = document.createElement("button")
     addButton.innerHTML = "Add Entry"
     addButton.type = "button"
     addButton.className += "editButton"
-    addButton.onclick = function () {
-        addCell.hidden = true;
-        let addForm = document.createElement("form")
-        addForm.id = "addEntryForm"
-
-        for (h of headings) {
-            let inputCell = document.createElement("td")
-            let addInput = document.createElement("input")
-            addInput.form = "addEntryForm"
-            addRow.appendChild(inputCell).appendChild(addInput)
-        }
-    };
+    addButton.onclick = function () { addEntry("newEntry", headings) }
+    // Add input row to end
     document.getElementById("wheelManageBody").appendChild(addRow).appendChild(addCell).appendChild(addButton)
 }
 
 function deleteItem(name) {
+    // splice item out of constants list
     let wheelList = wheels[wheelSelect][0]
     for (let i = 0; i < wheelList.length; i++) {
         if (wheelList[i]["name"] === name) {
@@ -162,7 +164,58 @@ function deleteItem(name) {
             break;
         }
     }
-    document.getElementById("cell" + name).parentElement.remove()
+    // Reload page
+    loadSpinPage()
+}
+
+function addEntry(item, headings) {
+    // if new entry
+    if (item === "newEntry") {
+        // add item to list
+        let wheelList = wheels[wheelSelect][0]
+        let newEntry = {}
+        for (h of headings) {
+            newEntry[h] = document.getElementById("new" + h).value
+            // Check for non-null
+            if (newEntry[h] === "") {
+                console.log("type something")
+                return
+            }
+        }
+        // Check for duplicate name
+        for (item of wheelList) {
+            if (item["name"] === newEntry["name"]) {
+                console.log("type something unique")
+                loadSpinPage()
+                return
+            }
+        }
+        wheelList.push(newEntry)
+        // reload page
+        loadSpinPage()
+    }
+    // if populating table from list
+    else {
+        // Create new row
+        let newRow = document.createElement("tr")
+        newRow.className += 'entry'
+        let nameString = item["name"]
+        newRow.id = "row" + nameString
+        for (h of headings) {
+            let cell = document.createElement("td")
+            cell.innerHTML = item[h]
+            newRow.appendChild(cell)
+        }
+        // Add delete button to new row
+        let delCell = document.createElement("td")
+        let delButton = document.createElement("button")
+        delButton.innerHTML = "Delete"
+        delButton.className += "editButton"
+        delButton.onclick = function () { deleteItem(nameString) }
+        newRow.appendChild(delCell).appendChild(delButton)
+        // Put new row at end of table
+        document.getElementById("wheelManageBody").appendChild(newRow)
+    }
 }
 
 function loadWinner(winners) {
@@ -188,9 +241,10 @@ function randomSpin() {
     if (Number.isInteger(parseInt(count)) === false || count < 1 || count > 4) { count = 1; }
     else { count = parseInt(count); }
     // Get candidate list from Manage Table
-    let candidates = generateCandidates();
+    // let candidates = generateCandidates();
+    let candidates = wheels[wheelSelect][0]
     // this is where any edits to candidates should happen
-    candidates = filterCandidates("included", wheels[wheelSelect][0])
+    candidates = filterCandidates("included", candidates)
     let winners = []
     let escape = 0;
     while (winners.length < count) {
@@ -209,31 +263,31 @@ function randomSpin() {
     loadWinner(winners);
 }
 
-function generateCandidates() {
-    // Get array of heading texts
-    let headings = []
-    let headingElements = document.getElementById("wheelManageHead").firstChild.children
-    for (let i = 0; i < headingElements.length; i++) {
-        headings.push(headingElements[i].textContent)
-    }
-    // Turn each element into an object
-    let candidates = []
-    for (entry of document.getElementsByClassName("entry")) {
-        // Get array of texts from table
-        let info = []
-        let infoElements = entry.children
-        for (let i = 0; i < infoElements.length - 1; i++) {
-            info.push(infoElements[i].textContent)
-        }
-        // Add candidate to array
-        let cand = {}
-        for (let i = 0; i < headings.length; i++) {
-            cand[headings[i]] = info[i]
-        }
-        candidates.push(cand)
-    }
-    return candidates
-}
+// function generateCandidates() {
+//     // Get array of heading texts
+//     let headings = []
+//     let headingElements = document.getElementById("wheelManageHead").firstChild.children
+//     for (let i = 0; i < headingElements.length; i++) {
+//         headings.push(headingElements[i].textContent)
+//     }
+//     // Turn each element into an object
+//     let candidates = []
+//     for (entry of document.getElementsByClassName("entry")) {
+//         // Get array of texts from table
+//         let info = []
+//         let infoElements = entry.children
+//         for (let i = 0; i < infoElements.length - 1; i++) {
+//             info.push(infoElements[i].textContent)
+//         }
+//         // Add candidate to array
+//         let cand = {}
+//         for (let i = 0; i < headings.length; i++) {
+//             cand[headings[i]] = info[i]
+//         }
+//         candidates.push(cand)
+//     }
+//     return candidates
+// }
 
 function filterCandidates(filter, candidates) {
 

@@ -49,5 +49,5 @@ const wheels = {
     // where heading1 is always a name/identifier
     Restaurants: [restaurantList, "name", "style", "price"],
     Movies: [movieList, "name", "genre"],
-    New: [newList]
+    New: [newList, "name"]
 }
