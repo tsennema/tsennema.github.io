@@ -12,7 +12,7 @@ header {
 .mainHolder {
     display: flex;
     flex-direction: row;
-    
+    flex-wrap: wrap;
     justify-content:space-evenly;
 }
 .main {
