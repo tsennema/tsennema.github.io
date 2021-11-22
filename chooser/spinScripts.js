@@ -142,6 +142,7 @@ function loadManageWheel() {
         let addInput = document.createElement("input")
         addInput.id = "new" + h
         addInput.placeholder = h
+        addInput.size = 10;
         addRow.appendChild(inputCell).appendChild(addInput)
     }
     let addCell = document.createElement("td")
