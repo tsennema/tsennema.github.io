@@ -5,7 +5,7 @@ select.addEventListener('change', changeSelect, false)
 
 // Current List of ToDos:
 // Make add/delete buttons update the constants lists. Don't worry about making it scalable, just get it functional
-//     maybe make an addEntry function with an argument, and just call it a bunch when building the table
+//    maybe make an addEntry function with an argument, and just call it a bunch when building the table
 // Make add/delete buttons call loadSpinPage, to update all new tags, etc.
 // Make add button check for values in all fields
 // Make add button check name against list for duplicates
@@ -14,6 +14,7 @@ select.addEventListener('change', changeSelect, false)
 
 
 function loadSpinPage() {
+    // runs on first load of page, calls several functions
     populateWheelSelect()
     loadWheel()
     loadFilterList("included", true)
@@ -35,6 +36,7 @@ function populateWheelSelect() {
 }
 
 function changeSelect() {
+    // Updates the 'raffle winner' displayed
     wheelSelect = this.value
     if (document.contains(document.getElementById("winList"))) {
         document.getElementById("winList").remove()
@@ -43,6 +45,7 @@ function changeSelect() {
 }
 
 function loadWheel() {
+    // adds html elements
     if (document.contains(document.getElementById("wheelTitle"))) {
         document.getElementById("wheelTitle").remove()
     }
@@ -92,9 +95,6 @@ function loadFilterList(filterName, defaultChecked) {
 }
 
 function loadManageWheel() {
-    // This page will essentially have a heading with the wheel name + edit name
-    // tag names + edit tag name, add new tags, delete tags with warning
-    // list of entries (scrollable?), editable, deletable, and spot to add new ones
 
     // Clear Things if new wheel Selected
     const tableHead = document.getElementById("wheelManageHead")
@@ -220,6 +220,7 @@ function addEntry(item, headings) {
 }
 
 function loadWinner(winners) {
+    // adds html elements after selection
     if (document.contains(document.getElementById("winList"))) {
         document.getElementById("winList").remove()
     }
